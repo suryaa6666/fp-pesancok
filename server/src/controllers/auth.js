@@ -13,15 +13,15 @@ exports.register = async (req, res) => {
 
     const { error } = schema.validate(req.body)
 
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
     if (error) {
         return res.status(400).send({
             status: 'error',
             message: error.details[0].message
         })
     }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     try {
 
@@ -54,7 +54,7 @@ exports.register = async (req, res) => {
 
         res.status(200).send({
             status: 'success',
-            data,
+            message: 'registration success!',
             token
         })
     } catch (error) {
