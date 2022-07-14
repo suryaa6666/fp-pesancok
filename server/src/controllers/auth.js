@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 exports.register = async (req, res) => {
     const schema = Joi.object({
-        nama: Joi.string().min(3).required(),
+        name: Joi.string().min(3).required(),
         username: Joi.string().min(3).required(),
         email: Joi.string().email().min(5).required(),
         password: Joi.string().min(4).required()
@@ -25,14 +25,24 @@ exports.register = async (req, res) => {
 
     try {
 
+        const usernameExist = await user.findOne({
+            where: {
+                username: req.body.username
+            },
+        })
+
         const emailExist = await user.findOne({
             where: {
                 email: req.body.email
             },
-            attributes: {
-                exclude: ["password"]
-            }
         })
+
+        if (usernameExist) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'username already exist, use another one!'
+            })
+        }
 
         if (emailExist) {
             return res.status(400).send({
@@ -68,32 +78,32 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
 
-        const emailExist = await user.findOne({
-            where: { email: req.body.email }
+        const usernameExist = await user.findOne({
+            where: { username: req.body.username }
         }
         )
 
-        if (!emailExist) return res.status(400).send({
+        if (!usernameExist) return res.status(400).send({
             status: 'error',
-            message: 'email not found!'
+            message: 'username not found!'
         })
 
-        const verify = await bcrypt.compare(req.body.password, emailExist.password)
+        const verify = await bcrypt.compare(req.body.password, usernameExist.password)
+
+        if (!verify) return res.status(400).send({
+            status: 'error',
+            message: 'password incorrect!'
+        })
 
         const data = await user.findOne({
             where: {
-                id: emailExist.id
+                id: usernameExist.id
             },
             attributes: {
                 exclude: ["password"]
             }
         }
         )
-
-        if (!verify) return res.status(400).send({
-            status: 'error',
-            message: 'password incorrect!'
-        })
 
         const token = jwt.sign({
             id: data.id,
