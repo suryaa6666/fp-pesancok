@@ -26,13 +26,18 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
     try {
 
-        const { id } = req.params
+        const { username } = req.params
 
         const data = await user.findOne({
-            where: { id },
+            where: { username },
             attributes: {
                 exclude: ["password"]
             }
+        })
+
+        if (!data) return res.status(400).send({
+            status: 'error',
+            message: 'user tidak ditemukan!'
         })
 
         res.status(200).send({

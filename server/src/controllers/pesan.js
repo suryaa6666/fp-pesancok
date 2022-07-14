@@ -6,7 +6,7 @@ exports.addPesan = async (req, res) => {
         pesan: Joi.string().min(3).required(),
     })
 
-    const { id } = req.params
+    const { username } = req.params
 
     const { error } = schema.validate(req.body)
 
@@ -19,17 +19,17 @@ exports.addPesan = async (req, res) => {
 
     try {
         const userExist = await user.findOne({
-            where: { id }
+            where: { username }
         })
 
         if (!userExist) return res.status(400).send({
             status: 'error',
-            message: `user id ${id} doesn't exist!`
+            message: `user not found!`
         })
 
         const data = await pesan.create({
             pesan: req.body.pesan,
-            idUser: id
+            idUser: userExist.id
         })
 
         res.status(200).send({

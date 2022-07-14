@@ -7,13 +7,13 @@ const { getPesans, addPesan, updatePesan, deletePesan, getPesan } = require('../
 const { register, login } = require('../controllers/auth')
 
 router.get('/user', getUsers)
-router.get('/user/:id', getUser)
+router.get('/user/:username', getUser)
 router.patch('/user/:id', updateUser)
 router.delete('/user/:id', deleteUser)
 
 router.get('/pesan', getPesans)
 router.get('/pesan/:id', getPesan)
-router.post('/pesan/:id', addPesan)
+router.post('/pesan/:username', addPesan)
 router.patch('/pesan/:id', updatePesan)
 router.delete('/pesan/:id', deletePesan)
 
