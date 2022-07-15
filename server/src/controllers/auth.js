@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
 
         const token = jwt.sign({
             id: data.id,
-            email: data.email,
+            name: data.name,
             username: data.username
         }, process.env.TOKEN_KEY)
 
@@ -107,7 +107,7 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({
             id: data.id,
-            email: data.email,
+            name: data.name,
             username: data.username
         }, process.env.TOKEN_KEY)
 

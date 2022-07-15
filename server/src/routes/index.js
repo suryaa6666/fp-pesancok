@@ -5,9 +5,10 @@ const router = express.Router()
 const { getUsers, updateUser, deleteUser, getUser } = require('../controllers/user')
 const { getPesans, addPesan, updatePesan, deletePesan, getPesan } = require('../controllers/pesan')
 const { register, login } = require('../controllers/auth')
+const { auth } = require('../middlewares/auth')
 
 router.get('/user', getUsers)
-router.get('/user/:username', getUser)
+router.get('/user/:username', auth, getUser)
 router.patch('/user/:id', updateUser)
 router.delete('/user/:id', deleteUser)
 

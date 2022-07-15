@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Register = () => {
 
@@ -76,6 +76,7 @@ const Register = () => {
                     <Form.Group className="mb-3">
                         <Form.Control type="password" placeholder="password..." onChange={handleChangePassword} />
                     </Form.Group>
+                    <p> Sudah punya akun? <Link to="/">Login disini!</Link></p>
                     <Button variant="primary" onClick={handleRegister}>Register</Button>
                 </Form>
             </div>

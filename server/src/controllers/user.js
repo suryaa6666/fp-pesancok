@@ -1,4 +1,5 @@
 const { user, pesan } = require('../../models')
+const jwt = require('jsonwebtoken')
 
 exports.getUsers = async (req, res) => {
     try {
@@ -28,8 +29,17 @@ exports.getUser = async (req, res) => {
 
         const { username } = req.params
 
+        if (username != req.user.username) return res.status(400).send({
+            status: 'error',
+            message: 'user tidak ditemukan!'
+        })
+
         const data = await user.findOne({
             where: { username },
+            include: {
+                as: 'pesan',
+                model: pesan,
+            },
             attributes: {
                 exclude: ["password"]
             }

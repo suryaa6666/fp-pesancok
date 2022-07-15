@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Login = () => {
 
@@ -61,6 +61,7 @@ const Login = () => {
                     <Form.Group className="mb-3">
                         <Form.Control type="password" placeholder="password..." onChange={handleChangePassword} />
                     </Form.Group>
+                    <p> Belum punya akun? <Link to="/register">Buat akun disini</Link></p>
                     <Button variant="primary" onClick={handleLogin}>Login</Button>
                 </Form>
             </div>
